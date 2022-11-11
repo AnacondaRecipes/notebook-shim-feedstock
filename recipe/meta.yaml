@@ -1,40 +1,49 @@
+{% set name = "notebook-shim" %}
 {% set version = "0.2.2" %}
 
 package:
-  name: notebook-shim
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/n/notebook-shim/notebook_shim-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/notebook_shim-{{ version }}.tar.gz
   sha256: 090e0baf9a5582ff59b607af523ca2db68ff216da0c69956b62cab2ef4fc9c3f
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
   number: 0
+  skip: True  # [py<37]
+  script: {{ PYTHON }} -m pip install . --no-deps -vvv
 
 requirements:
   host:
-    - hatchling >=1.0
+    - python
+    - hatchling
     - pip
-    - python >=3.7
+    - setuptools
+    - wheel
+
   run:
+    - python
     - jupyter_server >=1.8,<3
-    - python >=3.7
 
 test:
   imports:
     - notebook_shim
-  commands:
-    - pip check
   requires:
     - pip
+  commands:
+    - pip check
 
 about:
-  home: https://github.com/jupyterlab/notebook_shim
+  home: https://github.com/jupyter/notebook_shim
   summary: A shim layer for notebook traits and config
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE
+  description: |
+    This project provides a way for JupyterLab and other frontends to switch to Jupyter Server for their Python Web application backend.
+  doc_url: https://github.com/jupyter/notebook_shim/blob/main/README.md
+  dev_url: https://github.com/jupyter/notebook_shim
 
 extra:
   recipe-maintainers:
