@@ -6,13 +6,13 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/notebook_shim-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/notebook_shim-{{ version }}.tar.gz
   sha256: b4b2cfa1b65d98307ca24361f5b30fe785b53c3fd07b7a47e89acb5e6ac638cb
 
 build:
-  number: 0
+  number: 1
   # jupyter_server-1.13.5-pyhd3eb1b0_0 requires anyio >=3.1.0,<4 but it's not available on s390x
-  skip: True  # [py<37 or s390x]
+  skip: true  # [py<37 or s390x]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -v
 
 requirements:
